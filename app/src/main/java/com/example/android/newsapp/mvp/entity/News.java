@@ -13,8 +13,6 @@ public class News {
 
     private String status;
 
-
-
     private List<Articles> articles;
 
     public String getStatus() {
@@ -52,7 +50,18 @@ public class News {
             url = source.readString();
             urlToImage = source.readString();
             publishedAt = source.readString();
+            source = source.readParcelable(getClass().getClassLoader());
 
+        }
+
+        private Source source;
+
+        public Source getSource() {
+            return source;
+        }
+
+        public void setSource(Source source) {
+            this.source = source;
         }
 
         private String author;
@@ -115,6 +124,8 @@ public class News {
             this.publishedAt = publishedAt;
         }
 
+
+
         @Override
         public int describeContents() {
             return 0;
@@ -128,6 +139,7 @@ public class News {
             dest.writeString(url);
             dest.writeString(urlToImage);
             dest.writeString(publishedAt);
+            dest.writeParcelable(source, flags);
         }
 
         public static final Creator<Articles> CREATOR = new Creator<Articles>() {
@@ -141,5 +153,54 @@ public class News {
                 return new Articles[size];
             }
         };
+
+        public static class Source implements Parcelable{
+            private String id;
+            private String name;
+
+            public Source(Parcel source){
+                id = source.readString();
+                name = source.readString();
+            }
+
+            public String getId() {
+                return id;
+            }
+
+            public void setId(String id) {
+                this.id = id;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeString(id);
+                dest.writeString(name);
+            }
+            public static final Creator<Source> CREATOR = new Creator<Source>() {
+                @Override
+                public Source createFromParcel(Parcel source) {
+                    return new Source(source);
+                }
+
+                @Override
+                public Source[] newArray(int size) {
+                    return new Source[size];
+                }
+            };
+        }
     }
+
 }

@@ -70,9 +70,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         // need to check if the activity has navigation view
         initDrawerLayout();
 
-        if(mPresenter != null){
-            mPresenter.onCreate();
-        }
     }
 
     private void initActivityComponenet(){

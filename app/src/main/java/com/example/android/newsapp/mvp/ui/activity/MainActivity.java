@@ -1,6 +1,7 @@
 package com.example.android.newsapp.mvp.ui.activity;
 
 import android.os.Parcelable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -51,6 +52,10 @@ public class MainActivity extends BaseActivity implements NewsView {
     @BindView(R.id.view_pager)
     ViewPager viewPager;
 
+    @BindView(R.id.tabs)
+    TabLayout myTabs;
+
+    private List<String> titleList;
 
 
     private List<NewsListFragment> fragmentList = new ArrayList<>();
@@ -87,7 +92,7 @@ public class MainActivity extends BaseActivity implements NewsView {
     @Override
     public void initViewpager(List<News> newsList) {
         final List<String> titleList = new ArrayList<>();
-        if( newsList != null){
+        if (newsList != null) {
             setNewsList(newsList, titleList);
             setViewPager(titleList);
 
@@ -114,28 +119,14 @@ public class MainActivity extends BaseActivity implements NewsView {
 
         @Override
         public int getCount() {
-           return fragmentList.size();
+            return fragmentList.size();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return title.get(position);
         }
     }
-
-
-//    @Override
-//    public void showProgress(News data) {
-//
-//
-//        Log.d("xuyang========== sun", data.getStatus());
-//
-//        List<Fragment> list = createFragment(data);
-//
-//
-//        ScrollAdapter scrollAdapter = new ScrollAdapter(getSupportFragmentManager());
-//
-//        scrollAdapter.setFragmentList(list);
-//
-//        viewPager.setAdapter(scrollAdapter);
-//
-//
-//    }
 
     @Override
     public void showProgress() {
@@ -155,26 +146,31 @@ public class MainActivity extends BaseActivity implements NewsView {
 
     }
 
-    private NewsListFragment createFragment(News news){
+    private NewsListFragment createFragment(News news) {
         NewsListFragment fragment = new NewsListFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList("article", (ArrayList)news.getArticles());
+        bundle.putParcelableArrayList("article", (ArrayList) news.getArticles());
+        fragment.setArguments(bundle);
 
-        return  fragment;
+        return fragment;
     }
 
-    private void setNewsList(List<News> newsList, List<String> titlename){
+    private void setNewsList(List<News> newsList, List<String> titlename) {
         fragmentList.clear();
-        for(News news  : newsList){
+        for (News news : newsList) {
             NewsListFragment newsListFragment = createFragment(news);
             fragmentList.add(newsListFragment);
-            titlename.add(news.getStatus());
+            titlename.add(news.getArticles().get(0).getSource().getName());
         }
     }
 
-    private void setViewPager(List<String> newsTitle){
+    private void setViewPager(List<String> newsTitle) {
         ScrollAdapter scrollAdapter = new ScrollAdapter(getSupportFragmentManager(), newsTitle, fragmentList);
         viewPager.setAdapter(scrollAdapter);
+        myTabs.setupWithViewPager(viewPager);
+
+        titleList = newsTitle;
+
 
     }
 

@@ -1,5 +1,6 @@
 package com.example.android.newsapp.mvp.ui.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.android.newsapp.R;
 import com.example.android.newsapp.mvp.entity.News;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -40,6 +42,12 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsLi
         this.articlesList = articlesList;
     }
 
+    private void setupImage(Context context, List<News.Articles> articles, int position, NewsListHolder holder){
+        if(articles.get(position).getUrlToImage() != null){
+            Picasso.with(context).load(articles.get(position).getUrlToImage()).into(holder.iconView);
+        }
+    }
+
 
 
 
@@ -60,6 +68,10 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsLi
         holder.titleView.setText(articlesList.get(position).getTitle());
 
         holder.descriptionView.setText(articlesList.get(position).getDescription());
+
+        holder.published_time_view.setText(articlesList.get(position).getPublishedAt());
+
+     //   setupImage(holder.iconView.getContext(), articlesList, position, holder);
 
     }
 

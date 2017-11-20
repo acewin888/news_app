@@ -40,6 +40,8 @@ public class NewsListFragment extends BaseFragment implements SwipeRefreshLayout
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
 
+
+
     @Inject
     NewsListAdapter newsListAdapter;
 
@@ -82,6 +84,8 @@ public class NewsListFragment extends BaseFragment implements SwipeRefreshLayout
 
     @Override
     public void onRefresh() {
+        swipeRefreshLayout.setRefreshing(false);
+        mPresenter.onCreate();
 
     }
 
@@ -99,7 +103,8 @@ public class NewsListFragment extends BaseFragment implements SwipeRefreshLayout
 
     @Override
     public void hideProgress() {
-
+        progressBar.setVisibility(View.INVISIBLE);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override

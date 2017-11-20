@@ -32,6 +32,11 @@ public class NewsPresenterImpl extends BasePresenterImpl<NewsView, News>{
 
         newsInteractor.loadNews(this, "associated-press", "c10a1af09bbc4567844a7f5c7ffd289c" );
 
+        newsInteractor.loadNews(this, "abc-news", "c10a1af09bbc4567844a7f5c7ffd289c" );
+
+        newsInteractor.loadNews(this, "bbc-news", "c10a1af09bbc4567844a7f5c7ffd289c" );
+
+        newsInteractor.loadNews(this, "bloomberg", "c10a1af09bbc4567844a7f5c7ffd289c" );
 
     }
 
@@ -45,5 +50,8 @@ public class NewsPresenterImpl extends BasePresenterImpl<NewsView, News>{
 
 
         mView.initViewpager(newsList);
+
+        mView.hideProgress();
+
     }
 }

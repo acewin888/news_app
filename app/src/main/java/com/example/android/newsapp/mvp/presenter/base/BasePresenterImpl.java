@@ -34,6 +34,7 @@ public class BasePresenterImpl<T extends BaseView, E> implements BasePresenter, 
     @Override
     public void success(E data) {
         mView.showProgress();
+        mView.hideProgress();
 
     }
 
