@@ -14,8 +14,8 @@ import rx.Observable;
 public interface NewsService {
 
 
-    @GET("articles")
-    Observable<News> getNews(@Query("source") String source, @Query("sortBy") String sortBy,
+    @GET("top-headlines")
+    Observable<News> getNews(@Query("sources") String source,
                              @Query("apiKey") String apiKey);
 
 

@@ -19,7 +19,7 @@ import rx.Observable;
 
 public class RetrofitManager {
 
-    private final String BASEURL = "https://newsapi.org/v1/";
+    private final String BASEURL = "https://newsapi.org/v2/";
 
     private NewsService newsService;
 

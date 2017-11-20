@@ -33,7 +33,8 @@ public class BasePresenterImpl<T extends BaseView, E> implements BasePresenter, 
 
     @Override
     public void success(E data) {
-        mView.showProgress(data);
+        mView.showProgress();
+
     }
 
     @Override

@@ -10,5 +10,5 @@ import rx.Subscription;
 
 public interface NewsInteractor<T> {
 
-    Subscription loadNews(RequestCallBack<T> callBack, String source, String sortBy, String apiKey);
+    Subscription loadNews(RequestCallBack<T> callBack, String source,  String apiKey);
 }

@@ -1,16 +1,29 @@
 package com.example.android.newsapp.mvp.ui.activity;
 
+import android.os.Parcelable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.example.android.newsapp.R;
 import com.example.android.newsapp.mvp.entity.News;
 import com.example.android.newsapp.mvp.presenter.impl.NewsPresenterImpl;
 import com.example.android.newsapp.mvp.ui.activity.base.BaseActivity;
+import com.example.android.newsapp.mvp.ui.fragment.NewsListFragment;
+import com.example.android.newsapp.mvp.view.NewsView;
 import com.example.android.newsapp.mvp.view.base.BaseView;
 import com.example.android.newsapp.network.RetrofitManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -26,19 +39,26 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static android.R.attr.data;
+import static com.example.android.newsapp.R.id.textView;
 import static com.example.android.newsapp.network.RetrofitManager.getNewInstance;
 
-public class MainActivity extends BaseActivity implements BaseView<News> {
+public class MainActivity extends BaseActivity implements NewsView {
 
     @Inject
     NewsPresenterImpl newsPresenterImpl;
 
-    TextView textView;
+
+    @BindView(R.id.view_pager)
+    ViewPager viewPager;
+
+
+
+    private List<NewsListFragment> fragmentList = new ArrayList<>();
 
 
     @Override
     public int getLayoutId() {
-        return  R.layout.activity_main;
+        return R.layout.activity_main;
     }
 
     @Override
@@ -52,65 +72,73 @@ public class MainActivity extends BaseActivity implements BaseView<News> {
 
         mPresenter = newsPresenterImpl;
         mPresenter.attachView(this);
-            // attach presenter
+        // attach presenter
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        textView = (TextView) findViewById(R.id.text_view);
-
-
-//        RetrofitManager.getNewInstance().getNewsService().getNews("abc-news-au","top", "c10a1af09bbc4567844a7f5c7ffd289c")
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Observer<News>() {
-//                    @Override
-//                    public void onCompleted() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        Log.d("xuyang sun", e.toString());
-//                    }
-//
-//                    @Override
-//                    public void onNext(News news) {
-//                        String name = news.getStatus();
-//                        textView.setText(news.getSource());
-//                    }
-//                });
-
-
-//        RetrofitManager.getNewInstance().getNewsService().fetchNews()
-//                .enqueue(new Callback<News>() {
-//                    @Override
-//                    public void onResponse(Call<News> call, Response<News> response) {
-//                        textView.setText(response.body().getSource());
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<News> call, Throwable t) {
-//                        Log.d("xuyang sun", t.toString());
-//
-//                    }
-//                });
-
-
-
-
+        mPresenter.onCreate();
 
 
     }
 
+    @Override
+    public void initViewpager(List<News> newsList) {
+        final List<String> titleList = new ArrayList<>();
+        if( newsList != null){
+            setNewsList(newsList, titleList);
+            setViewPager(titleList);
+
+        }
+    }
+
+    public static class ScrollAdapter extends FragmentStatePagerAdapter {
+
+        private List<String> title;
+
+        private List<NewsListFragment> fragmentList;
+
+
+        public ScrollAdapter(FragmentManager fm, List<String> title, List<NewsListFragment> fragmentList) {
+            super(fm);
+            this.title = title;
+            this.fragmentList = fragmentList;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+           return fragmentList.size();
+        }
+    }
+
+
+//    @Override
+//    public void showProgress(News data) {
+//
+//
+//        Log.d("xuyang========== sun", data.getStatus());
+//
+//        List<Fragment> list = createFragment(data);
+//
+//
+//        ScrollAdapter scrollAdapter = new ScrollAdapter(getSupportFragmentManager());
+//
+//        scrollAdapter.setFragmentList(list);
+//
+//        viewPager.setAdapter(scrollAdapter);
+//
+//
+//    }
 
     @Override
-    public void showProgress(News data) {
-
-        String name = data.getStatus();
-        textView.setText(data.getSource());
+    public void showProgress() {
 
     }
 
@@ -122,8 +150,33 @@ public class MainActivity extends BaseActivity implements BaseView<News> {
     @Override
     public void showMessage(String message) {
 
-        Log.d("xuyang sun", message);
+        Log.d("xuyang========== sun", message);
 
 
     }
+
+    private NewsListFragment createFragment(News news){
+        NewsListFragment fragment = new NewsListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("article", (ArrayList)news.getArticles());
+
+        return  fragment;
+    }
+
+    private void setNewsList(List<News> newsList, List<String> titlename){
+        fragmentList.clear();
+        for(News news  : newsList){
+            NewsListFragment newsListFragment = createFragment(news);
+            fragmentList.add(newsListFragment);
+            titlename.add(news.getStatus());
+        }
+    }
+
+    private void setViewPager(List<String> newsTitle){
+        ScrollAdapter scrollAdapter = new ScrollAdapter(getSupportFragmentManager(), newsTitle, fragmentList);
+        viewPager.setAdapter(scrollAdapter);
+
+    }
+
+
 }

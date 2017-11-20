@@ -26,8 +26,8 @@ public class NewsInteractorImpl implements NewsInteractor<News> {
     }
 
     @Override
-    public Subscription loadNews(final RequestCallBack<News> callBack, String source, String sortBy, String apiKey) {
-        return RetrofitManager.getNewInstance().getNewsService().getNews(source, sortBy, apiKey)
+    public Subscription loadNews(final RequestCallBack<News> callBack, String source,  String apiKey) {
+        return RetrofitManager.getNewInstance().getNewsService().getNews(source, apiKey)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<News>() {
