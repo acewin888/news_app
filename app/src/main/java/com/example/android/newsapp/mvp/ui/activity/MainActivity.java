@@ -1,5 +1,6 @@
 package com.example.android.newsapp.mvp.ui.activity;
 
+import android.content.Intent;
 import android.os.Parcelable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -11,10 +12,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.example.android.newsapp.R;
+import com.example.android.newsapp.annotation.BindValue;
 import com.example.android.newsapp.mvp.entity.News;
 import com.example.android.newsapp.mvp.presenter.impl.NewsPresenterImpl;
 import com.example.android.newsapp.mvp.ui.activity.base.BaseActivity;
@@ -29,6 +32,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -43,6 +47,7 @@ import static android.R.attr.data;
 import static com.example.android.newsapp.R.id.textView;
 import static com.example.android.newsapp.network.RetrofitManager.getNewInstance;
 
+@BindValue(mHasNavigationView = true)
 public class MainActivity extends BaseActivity implements NewsView {
 
     @Inject
@@ -87,6 +92,19 @@ public class MainActivity extends BaseActivity implements NewsView {
         mPresenter.onCreate();
 
 
+    }
+
+    @OnClick({R.id.fab, R.id.add_channel_iv})
+    public void onClick(View view){
+        switch(view.getId()){
+            case R.id.fab:
+                //do scroll to the top using rxbus
+                break;
+            case R.id.add_channel_iv:
+                Intent intent = new Intent(this, AddChannelActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 
     @Override

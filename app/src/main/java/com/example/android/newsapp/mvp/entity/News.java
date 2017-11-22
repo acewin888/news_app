@@ -43,14 +43,15 @@ public class News {
             this.publishedAt = publishedAt;
         }
 
-        public Articles(Parcel source){
-            author = source.readString();
-            title = source.readString();
-            description = source.readString();
-            url = source.readString();
-            urlToImage = source.readString();
-            publishedAt = source.readString();
-            source = source.readParcelable(getClass().getClassLoader());
+        public Articles(Parcel sources){
+            author = sources.readString();
+            title = sources.readString();
+            description = sources.readString();
+            url = sources.readString();
+            urlToImage = sources.readString();
+            publishedAt = sources.readString();
+            source =sources.readParcelable(Source.class.getClassLoader());
+
 
         }
 

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.newsapp.R;
+import com.example.android.newsapp.listener.OnItemClickListener;
 import com.example.android.newsapp.mvp.entity.News;
 import com.squareup.picasso.Picasso;
 
@@ -22,6 +23,7 @@ import butterknife.ButterKnife;
 import rx.schedulers.NewThreadScheduler;
 
 import static android.R.attr.description;
+import static android.R.attr.theme;
 
 /**
  * Created by kevinsun on 11/14/17.
@@ -34,6 +36,12 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsLi
     @Inject
     public NewsListAdapter(){
 
+    }
+
+    private OnItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener){
+        this.onItemClickListener = onItemClickListener;
     }
 
     private List<News.Articles> articlesList;
@@ -58,8 +66,21 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsLi
 
         View itemView = layoutInflater.inflate(R.layout.news_item_list, parent, false );
 
+        final NewsListHolder newsListHolder = new NewsListHolder(itemView);
 
-        return new NewsListHolder(itemView);
+        setItemOnCLickEvent(newsListHolder);
+        return newsListHolder;
+    }
+
+    private void setItemOnCLickEvent(final NewsListHolder holder){
+        if(onItemClickListener != null){
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onItemClickListener.onItemSelect(v, holder.getLayoutPosition());
+                }
+            });
+        }
     }
 
     @Override

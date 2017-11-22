@@ -3,6 +3,7 @@ package com.example.android.newsapp.di.component;
 import android.app.Activity;
 
 import com.example.android.newsapp.di.module.ActivityModule;
+import com.example.android.newsapp.mvp.ui.activity.AddChannelActivity;
 import com.example.android.newsapp.mvp.ui.activity.MainActivity;
 
 import dagger.Component;
@@ -16,6 +17,8 @@ public interface ActivityComponent {
     Activity getActivity();
 
     void inject(MainActivity mainActivity);
+
+    void inject(AddChannelActivity addChannelActivity);
 
 
 }

@@ -1,7 +1,11 @@
 package com.example.android.newsapp.mvp.ui.adapter.baseadapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.android.newsapp.listener.OnItemClickListener;
 
 import java.util.List;
 
@@ -13,8 +17,14 @@ public class BaseRecycleAdapter<T> extends RecyclerView.Adapter<RecyclerView.Vie
 
     protected List<T> mList;
 
+    protected OnItemClickListener onItemClickListener;
+
     public BaseRecycleAdapter(List<T> list){
         mList = list;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener){
+        this.onItemClickListener = onItemClickListener;
     }
 
 
@@ -28,6 +38,10 @@ public class BaseRecycleAdapter<T> extends RecyclerView.Adapter<RecyclerView.Vie
 
     }
 
+    protected View getView(ViewGroup parent, int layoutId){
+        return LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
+    }
+
     @Override
     public int getItemCount() {
        if(mList == null){
@@ -35,5 +49,15 @@ public class BaseRecycleAdapter<T> extends RecyclerView.Adapter<RecyclerView.Vie
        }else{
            return  mList.size();
        }
+    }
+
+    public void add(int position, T item){
+        mList.add(position, item);
+        notifyItemInserted(position);
+    }
+
+    public void delete(int position){
+        mList.remove(position);
+        notifyItemRemoved(position);
     }
 }

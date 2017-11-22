@@ -1,19 +1,24 @@
 package com.example.android.newsapp.mvp.ui.fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.example.android.newsapp.R;
+import com.example.android.newsapp.listener.OnItemClickListener;
 import com.example.android.newsapp.mvp.entity.News;
 import com.example.android.newsapp.mvp.presenter.impl.NewsPresenterImpl;
+import com.example.android.newsapp.mvp.ui.activity.AddChannelActivity;
 import com.example.android.newsapp.mvp.ui.activity.MainActivity;
+import com.example.android.newsapp.mvp.ui.activity.base.NewsDetailActivity;
 import com.example.android.newsapp.mvp.ui.adapter.NewsListAdapter;
 import com.example.android.newsapp.mvp.ui.fragment.base.BaseFragment;
 import com.example.android.newsapp.mvp.view.base.BaseView;
@@ -29,7 +34,7 @@ import butterknife.BindView;
  * Created by kevinsun on 11/14/17.
  */
 
-public class NewsListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, BaseView {
+public class NewsListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, BaseView, OnItemClickListener {
 
     @BindView(R.id.news_recycle_view)
     RecyclerView recyclerView;
@@ -51,6 +56,8 @@ public class NewsListFragment extends BaseFragment implements SwipeRefreshLayout
     @Inject
     Activity mActivity;
 
+    List<News.Articles> list;
+
 
 
     @Override
@@ -62,8 +69,9 @@ public class NewsListFragment extends BaseFragment implements SwipeRefreshLayout
     public void initViews(View view) {
 
 
-        List<News.Articles> list = getArguments().getParcelableArrayList("article");
+         list = getArguments().getParcelableArrayList("article");
         newsListAdapter.setArticlesList(list);
+        newsListAdapter.setOnItemClickListener(this);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity,
@@ -113,4 +121,10 @@ public class NewsListFragment extends BaseFragment implements SwipeRefreshLayout
     }
 
 
+    @Override
+    public void onItemSelect(View view, int position) {
+        Intent intent = new Intent(this.getActivity(), NewsDetailActivity.class);
+        intent.putExtra("detail",list.get(position) );
+        startActivity(intent);
+    }
 }
