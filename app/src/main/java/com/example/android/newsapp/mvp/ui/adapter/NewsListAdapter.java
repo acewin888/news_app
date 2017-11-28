@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.android.newsapp.R;
 import com.example.android.newsapp.listener.OnItemClickListener;
 import com.example.android.newsapp.mvp.entity.News;
+import com.example.android.newsapp.util.MyUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -52,7 +53,9 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsLi
 
     private void setupImage(Context context, List<News.Articles> articles, int position, NewsListHolder holder){
         if(articles.get(position).getUrlToImage() != null){
-            Picasso.with(context).load(articles.get(position).getUrlToImage()).into(holder.iconView);
+            Picasso.with(context).load(articles.get(position).getUrlToImage()).resize(100,100).into(holder.iconView);
+        }else {
+            Picasso.with(context).load(R.drawable.notavailalbe).resize(100,100).into(holder.iconView);
         }
     }
 
@@ -92,7 +95,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsLi
 
         holder.published_time_view.setText(articlesList.get(position).getPublishedAt());
 
-     //   setupImage(holder.iconView.getContext(), articlesList, position, holder);
+        setupImage(holder.iconView.getContext(), articlesList, position, holder);
 
     }
 

@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.example.android.newsapp.R;
+import com.example.android.newsapp.event.ScrolltoTopEvent;
 import com.example.android.newsapp.listener.OnItemClickListener;
 import com.example.android.newsapp.mvp.entity.News;
 import com.example.android.newsapp.mvp.presenter.impl.NewsPresenterImpl;
@@ -22,6 +23,8 @@ import com.example.android.newsapp.mvp.ui.activity.base.NewsDetailActivity;
 import com.example.android.newsapp.mvp.ui.adapter.NewsListAdapter;
 import com.example.android.newsapp.mvp.ui.fragment.base.BaseFragment;
 import com.example.android.newsapp.mvp.view.base.BaseView;
+import com.example.android.newsapp.util.NetUtil;
+import com.example.android.newsapp.util.RxBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +32,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import rx.functions.Action1;
 
 /**
  * Created by kevinsun on 11/14/17.
@@ -56,7 +60,7 @@ public class NewsListFragment extends BaseFragment implements SwipeRefreshLayout
     @Inject
     Activity mActivity;
 
-    List<News.Articles> list;
+    private List<News.Articles> list;
 
 
 
@@ -68,8 +72,7 @@ public class NewsListFragment extends BaseFragment implements SwipeRefreshLayout
     @Override
     public void initViews(View view) {
 
-
-         list = getArguments().getParcelableArrayList("article");
+        list = getArguments().getParcelableArrayList("article");
         newsListAdapter.setArticlesList(list);
         newsListAdapter.setOnItemClickListener(this);
 
@@ -81,7 +84,13 @@ public class NewsListFragment extends BaseFragment implements SwipeRefreshLayout
 
         mPresenter = newsPresenter;
         mPresenter.attachView(this);
-        mPresenter.onCreate();
+
+        swipeRefreshLayout.setOnRefreshListener(this);
+        progressBar.setVisibility(View.INVISIBLE);
+
+
+        scrollToTopEvent();
+
 
     }
 
@@ -93,7 +102,8 @@ public class NewsListFragment extends BaseFragment implements SwipeRefreshLayout
     @Override
     public void onRefresh() {
         swipeRefreshLayout.setRefreshing(false);
-        mPresenter.onCreate();
+        NetUtil.isNetWorkErrShowMsg();
+//        mPresenter.onCreate();
 
     }
 
@@ -111,7 +121,6 @@ public class NewsListFragment extends BaseFragment implements SwipeRefreshLayout
 
     @Override
     public void hideProgress() {
-        progressBar.setVisibility(View.INVISIBLE);
         swipeRefreshLayout.setRefreshing(false);
     }
 
@@ -126,5 +135,14 @@ public class NewsListFragment extends BaseFragment implements SwipeRefreshLayout
         Intent intent = new Intent(this.getActivity(), NewsDetailActivity.class);
         intent.putExtra("detail",list.get(position) );
         startActivity(intent);
+    }
+    private void scrollToTopEvent(){
+        mSubscription = RxBus.getInstance().toObservable(ScrolltoTopEvent.class)
+                .subscribe(new Action1<ScrolltoTopEvent>() {
+                    @Override
+                    public void call(ScrolltoTopEvent scrolltoTopEvent) {
+                        recyclerView.getLayoutManager().scrollToPosition(0);
+                    }
+                });
     }
 }

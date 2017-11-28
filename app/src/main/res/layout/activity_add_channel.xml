@@ -23,13 +23,13 @@
         android:layout_gravity="center"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
-        android:text="click or drag to sort out"
+        android:text="drag or click to sort"
         android:textColor="@color/secondary_text"
         android:textSize="16sp"/>
 
     <TextView
         style="@style/news_channel_sort_title"
-        android:text="My channel"/>
+        android:text="add Channel"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/news_channel_mine_rv"

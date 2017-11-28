@@ -17,6 +17,7 @@ import com.example.android.newsapp.R;
 import com.example.android.newsapp.annotation.BindValue;
 import com.example.android.newsapp.mvp.entity.News;
 import com.example.android.newsapp.mvp.ui.activity.AboutActivity;
+import com.example.android.newsapp.util.MyUtil;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -52,6 +53,8 @@ public class NewsDetailActivity extends BaseActivity {
     @Override
     public void initViews() {
 
+        progressBar.setVisibility(View.VISIBLE);
+
         article = getIntent().getExtras().getParcelable("detail");
 
         setupDetail(article);
@@ -79,6 +82,7 @@ public class NewsDetailActivity extends BaseActivity {
         if (url != null) {
             Picasso.with(context).load(url).into(imageView);
         }
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override

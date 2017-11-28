@@ -36,6 +36,7 @@
                 app:layout_collapseMode="parallax">
 
                 <ImageView
+                    android:src="@drawable/newsicon"
                     android:id="@+id/app_logo"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
@@ -58,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/app_name"
                     android:layout_centerHorizontal="true"
-                    android:text="1.0"
+                    android:text="0.7"
                     android:textSize="12sp"/>
 
             </RelativeLayout>
@@ -96,7 +97,7 @@
                 android:background="@color/item_background"
                 android:lineSpacingExtra="8dp"
                 android:padding="16dp"
-                android:text="fill in the blank heredddddfdfill in the blank heredddddfdfill in the blank heredddddfdfill in the blank heredddddfd"
+                android:text="@string/about_text"
                 android:textColor="@color/primary_text" />
 
         </android.support.v7.widget.CardView>

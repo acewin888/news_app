@@ -51,13 +51,14 @@ public class BaseRecycleAdapter<T> extends RecyclerView.Adapter<RecyclerView.Vie
        }
     }
 
-    public void add(int position, T item){
+    public void addItem(int position, T item){
         mList.add(position, item);
         notifyItemInserted(position);
     }
 
-    public void delete(int position){
+    public void deleteItem(int position){
         mList.remove(position);
         notifyItemRemoved(position);
     }
+
 }

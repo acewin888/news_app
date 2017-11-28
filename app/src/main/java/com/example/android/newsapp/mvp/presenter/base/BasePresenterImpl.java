@@ -3,6 +3,8 @@ package com.example.android.newsapp.mvp.presenter.base;
 import com.example.android.newsapp.listener.RequestCallBack;
 import com.example.android.newsapp.mvp.view.base.BaseView;
 
+import java.util.List;
+
 import rx.Subscription;
 
 /**
@@ -29,6 +31,11 @@ public class BasePresenterImpl<T extends BaseView, E> implements BasePresenter, 
     @Override
     public void onDestory() {
         // need to override to cancel mSubscription
+    }
+
+    @Override
+    public void setChannel(List<String> list) {
+
     }
 
     @Override

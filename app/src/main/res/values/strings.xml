@@ -5,4 +5,8 @@
     <string name="drawer_open">open drawer</string>
 
     <string name="drawer_close">close drawer</string>
+
+    <string name="about_text">This app shows the basic of using MVP, retrofit, and RXjava, and also implement the event handle function by using RXbus. Feel free to contact kevinsun8803@gmailcom</string>
+
+
 </resources>

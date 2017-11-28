@@ -49,7 +49,7 @@ public class NewsChannelAdapter extends BaseRecycleAdapter<String>  implements I
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.news_item_list, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_news_channel, parent, false);
         NewsChannerViewHolder newsChannerViewHolder = new NewsChannerViewHolder(view);
         handleLongPress(newsChannerViewHolder);
         handleOnCLick(newsChannerViewHolder);
@@ -61,8 +61,7 @@ public class NewsChannelAdapter extends BaseRecycleAdapter<String>  implements I
             newsChannerViewHolder.itemView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    String selectedTitle = mList.get(newsChannerViewHolder.getLayoutPosition());
-
+                    itemDragHelperCallback.setmIsLongPressEnabled(true);
                     return false;
                 }
             });

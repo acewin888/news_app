@@ -66,8 +66,4 @@ public class RetrofitManager {
         return newsService;
     }
 
-//    public Observable<News> getNews(String source, String sortBy, String apiKey) {
-//
-//        return newsService.getNews(source, sortBy, apiKey);
-//    }
 }

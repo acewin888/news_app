@@ -15,6 +15,7 @@ import com.example.android.newsapp.di.module.FragmentModule;
 import com.example.android.newsapp.mvp.presenter.base.BasePresenter;
 
 import butterknife.ButterKnife;
+import rx.Subscription;
 
 /**
  * Created by kevinsun on 11/14/17.
@@ -27,6 +28,8 @@ public abstract class BaseFragment <T extends BasePresenter> extends Fragment{
     protected T mPresenter;
 
     protected View fragmentView;
+
+    protected Subscription mSubscription;
 
 
     public abstract void initInjector();
@@ -69,5 +72,10 @@ public abstract class BaseFragment <T extends BasePresenter> extends Fragment{
         if(mPresenter != null){
             mPresenter.onDestory();
         }
+
+        if(mSubscription != null && mSubscription.isUnsubscribed()){
+            mSubscription.unsubscribe();
+        }
     }
+
 }

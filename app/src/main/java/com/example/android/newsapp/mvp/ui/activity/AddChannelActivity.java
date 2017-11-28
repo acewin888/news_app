@@ -11,8 +11,10 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
 import com.example.android.newsapp.R;
+import com.example.android.newsapp.event.ChannelChangeEvent;
 import com.example.android.newsapp.event.ChannelItemMoveEvent;
 import com.example.android.newsapp.listener.OnItemClickListener;
+import com.example.android.newsapp.mvp.entity.Constant;
 import com.example.android.newsapp.mvp.entity.News;
 import com.example.android.newsapp.mvp.ui.activity.base.BaseActivity;
 import com.example.android.newsapp.mvp.ui.adapter.NewsChannelAdapter;
@@ -73,21 +75,7 @@ public class AddChannelActivity extends BaseActivity {
                 });
 
 
-        mineChannel.add("kevin");
-        mineChannel.add("jose");
-        mineChannel.add("dfee");
-        mineChannel.add("kack");
-        mineChannel.add("jose");
-        mineChannel.add("dfee");
-        mineChannel.add("kack");
-
-        moreChannel.add("aaa");
-        moreChannel.add("bbb");
-        moreChannel.add("ccc");
-        moreChannel.add("ddd");
-        moreChannel.add("eee");
-        moreChannel.add("fff");
-        moreChannel.add("ggg");
+       addChannel();
 
         initRecycleViewChannel(mineChannel, moreChannel);
 
@@ -113,7 +101,7 @@ public class AddChannelActivity extends BaseActivity {
         } else {
            moreAdapter = new NewsChannelAdapter(channel);
             recyclerView.setAdapter(moreAdapter);
-        //    setChannelMoreOnItemClick();
+            setChannelMoreOnItemClick();
         }
     }
 
@@ -122,8 +110,18 @@ public class AddChannelActivity extends BaseActivity {
             @Override
             public void onItemSelect(View view, int position) {
                 String title = mineAdapter.getData().get(position);
-                moreAdapter.add(1, title);
-                mineAdapter.delete(position);
+                moreAdapter.addItem(0, title);
+                mineAdapter.deleteItem(position);
+            }
+        });
+    }
+    private void setChannelMoreOnItemClick(){
+        moreAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemSelect(View view, int position) {
+                String title = moreAdapter.getData().get(position);
+                mineAdapter.addItem(0, title);
+                moreAdapter.deleteItem(position);
             }
         });
     }
@@ -136,5 +134,31 @@ public class AddChannelActivity extends BaseActivity {
 
         mineAdapter.setItemDragHelperCallback(itemDragHelperCallback);
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        RxBus.getInstance().post(new ChannelChangeEvent(mineAdapter.getData()));
+
+
+    }
+
+    private void addChannel(){
+        moreChannel.add(Constant.ABC_NEWS);
+        moreChannel.add(Constant.ASSOCIATED_PRESS);
+        moreChannel.add(Constant.BBC_NEWS);
+        moreChannel.add(Constant.BLLOMBERG);
+        moreChannel.add(Constant.BBC_SPORT);
+        moreChannel.add(Constant.BUSINESS_INSIDER);
+        moreChannel.add(Constant.BUZZFEED);
+        moreChannel.add(Constant.CBS_NEWS);
+        moreChannel.add(Constant.CNN);
+        moreChannel.add(Constant.ESPN);
+        moreChannel.add(Constant.FORTUNE);
+        moreChannel.add(Constant.FOX_NEWS);
+        moreChannel.add(Constant.GOOGLE_NEWS);
+        moreChannel.add(Constant.NBC_NEWS);
     }
 }

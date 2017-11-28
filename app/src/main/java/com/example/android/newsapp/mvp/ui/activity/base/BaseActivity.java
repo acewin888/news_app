@@ -21,6 +21,7 @@ import com.example.android.newsapp.di.component.DaggerActivityComponent;
 import com.example.android.newsapp.di.module.ActivityModule;
 import com.example.android.newsapp.mvp.presenter.base.BasePresenter;
 import com.example.android.newsapp.mvp.ui.activity.AboutActivity;
+import com.example.android.newsapp.util.NetUtil;
 
 import butterknife.ButterKnife;
 import rx.Subscription;
@@ -58,6 +59,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         super.onCreate(savedInstanceState);
 
         initAnnotaiton();
+        NetUtil.isNetWorkErrShowMsg();
         int layoutId = getLayoutId();
         setContentView(layoutId);
 

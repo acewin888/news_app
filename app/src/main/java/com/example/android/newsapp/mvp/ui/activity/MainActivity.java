@@ -2,6 +2,7 @@ package com.example.android.newsapp.mvp.ui.activity;
 
 import android.content.Intent;
 import android.os.Parcelable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,6 +19,8 @@ import android.widget.TextView;
 
 import com.example.android.newsapp.R;
 import com.example.android.newsapp.annotation.BindValue;
+import com.example.android.newsapp.event.ChannelChangeEvent;
+import com.example.android.newsapp.event.ScrolltoTopEvent;
 import com.example.android.newsapp.mvp.entity.News;
 import com.example.android.newsapp.mvp.presenter.impl.NewsPresenterImpl;
 import com.example.android.newsapp.mvp.ui.activity.base.BaseActivity;
@@ -25,6 +28,8 @@ import com.example.android.newsapp.mvp.ui.fragment.NewsListFragment;
 import com.example.android.newsapp.mvp.view.NewsView;
 import com.example.android.newsapp.mvp.view.base.BaseView;
 import com.example.android.newsapp.network.RetrofitManager;
+import com.example.android.newsapp.util.MyUtil;
+import com.example.android.newsapp.util.RxBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,9 +46,12 @@ import rx.Observer;
 import rx.Scheduler;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 import static android.R.attr.data;
+import static android.R.attr.maxItemsPerRow;
+import static android.R.attr.tickMarkTint;
 import static com.example.android.newsapp.R.id.textView;
 import static com.example.android.newsapp.network.RetrofitManager.getNewInstance;
 
@@ -60,7 +68,10 @@ public class MainActivity extends BaseActivity implements NewsView {
     @BindView(R.id.tabs)
     TabLayout myTabs;
 
-    private List<String> titleList;
+    @BindView(R.id.fab)
+    FloatingActionButton floatingActionButton;
+
+    private  List<String> titleList;
 
 
     private List<NewsListFragment> fragmentList = new ArrayList<>();
@@ -82,15 +93,24 @@ public class MainActivity extends BaseActivity implements NewsView {
 
         mPresenter = newsPresenterImpl;
         mPresenter.attachView(this);
-        // attach presenter
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mPresenter.onCreate();
+        mSubscription = RxBus.getInstance().toObservable(ChannelChangeEvent.class)
+                .subscribe(new Action1<ChannelChangeEvent>() {
+                    @Override
+                    public void call(ChannelChangeEvent channelChangeEvent) {
+                        titleList = channelChangeEvent.getList();
+                        mPresenter.setChannel(titleList);
+                        mPresenter.onCreate();
+                    }
+                });
 
+
+        mPresenter.onCreate();
 
     }
 
@@ -98,7 +118,7 @@ public class MainActivity extends BaseActivity implements NewsView {
     public void onClick(View view){
         switch(view.getId()){
             case R.id.fab:
-                //do scroll to the top using rxbus
+                RxBus.getInstance().post(new ScrolltoTopEvent());
                 break;
             case R.id.add_channel_iv:
                 Intent intent = new Intent(this, AddChannelActivity.class);
@@ -186,8 +206,9 @@ public class MainActivity extends BaseActivity implements NewsView {
         ScrollAdapter scrollAdapter = new ScrollAdapter(getSupportFragmentManager(), newsTitle, fragmentList);
         viewPager.setAdapter(scrollAdapter);
         myTabs.setupWithViewPager(viewPager);
+        MyUtil.dynamicSetTabLayoutMode(myTabs);
 
-        titleList = newsTitle;
+
 
 
     }
