@@ -1,9 +1,12 @@
 package com.example.android.newsapp.util;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.view.View;
 
 import com.example.android.newsapp.App;
+import com.example.android.newsapp.mvp.entity.Constant;
 
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
@@ -12,6 +15,20 @@ import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
  */
 
 public class MyUtil {
+
+    public static boolean isNightMode(){
+        SharedPreferences preferences = App.getAppContext().getSharedPreferences(
+                Constant.SHAREPERFERENCE, Activity.MODE_PRIVATE);
+        return preferences.getBoolean(Constant.NIGHT_THEME_MODE, false);
+    }
+
+    public static void saveTheme(boolean isNight){
+        SharedPreferences preferences = App.getAppContext().getSharedPreferences(
+                Constant.SHAREPERFERENCE, Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(Constant.NIGHT_THEME_MODE, isNight);
+        editor.apply();
+    }
 
     public static void dynamicSetTabLayoutMode(TabLayout tabLayout){
         int tabWidth = calculateTabWidth(tabLayout);

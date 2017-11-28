@@ -25,4 +25,8 @@ public class Constant {
     public static final String FOX_NEWS = "fox-news";
     public static final String GOOGLE_NEWS = "google-news";
     public static final String NBC_NEWS = "nbc-news";
+
+
+    public static final String SHAREPERFERENCE ="SHARE_PREFERENCE";
+    public static final String NIGHT_THEME_MODE = "night_theme_mode";
 }

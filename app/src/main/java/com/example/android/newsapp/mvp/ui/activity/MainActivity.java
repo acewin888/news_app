@@ -3,6 +3,7 @@ package com.example.android.newsapp.mvp.ui.activity;
 import android.content.Intent;
 import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -71,6 +72,9 @@ public class MainActivity extends BaseActivity implements NewsView {
     @BindView(R.id.fab)
     FloatingActionButton floatingActionButton;
 
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
+
     private  List<String> titleList;
 
 
@@ -90,6 +94,7 @@ public class MainActivity extends BaseActivity implements NewsView {
 
     @Override
     public void initViews() {
+        mBaseNavView = navigationView;
 
         mPresenter = newsPresenterImpl;
         mPresenter.attachView(this);
