@@ -29,4 +29,7 @@ public class Constant {
 
     public static final String SHAREPERFERENCE ="SHARE_PREFERENCE";
     public static final String NIGHT_THEME_MODE = "night_theme_mode";
+
+
+    public static final String INIT_DB = "init_database";
 }

@@ -10,6 +10,7 @@ import rx.subjects.Subject;
  */
 
 public class RxBus {
+
     private static volatile RxBus rxBus;
 
     private final Subject<Object, Object> mBus;

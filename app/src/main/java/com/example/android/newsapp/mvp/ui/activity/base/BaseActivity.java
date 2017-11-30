@@ -278,9 +278,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     protected void onDestroy() {
         super.onDestroy();
 
-        if(mSubscription != null && mSubscription.isUnsubscribed()){
-            mSubscription.unsubscribe();
-        }
+        MyUtil.cancelSubscription(mSubscription);
 
         removeNightModeMask();
 

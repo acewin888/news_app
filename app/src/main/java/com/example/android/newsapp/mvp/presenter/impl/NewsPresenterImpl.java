@@ -51,9 +51,9 @@ public class NewsPresenterImpl extends BasePresenterImpl<NewsView, News> {
 
     @Override
     public void success(News data) {
-            newsList.add(data);
-            mView.initViewpager(newsList);
-            mView.hideProgress();
+        newsList.add(data);
+        mView.initViewpager(newsList);
+        mView.hideProgress();
 
 
     }

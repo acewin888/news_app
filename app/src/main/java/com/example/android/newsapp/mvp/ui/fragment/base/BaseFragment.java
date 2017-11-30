@@ -13,6 +13,7 @@ import com.example.android.newsapp.di.component.DaggerFragmentComponent;
 import com.example.android.newsapp.di.component.FragmentComponent;
 import com.example.android.newsapp.di.module.FragmentModule;
 import com.example.android.newsapp.mvp.presenter.base.BasePresenter;
+import com.example.android.newsapp.util.MyUtil;
 
 import butterknife.ButterKnife;
 import rx.Subscription;
@@ -73,9 +74,7 @@ public abstract class BaseFragment <T extends BasePresenter> extends Fragment{
             mPresenter.onDestory();
         }
 
-        if(mSubscription != null && mSubscription.isUnsubscribed()){
-            mSubscription.unsubscribe();
-        }
+        MyUtil.cancelSubscription(mSubscription);
     }
 
 }

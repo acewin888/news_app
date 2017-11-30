@@ -1,12 +1,15 @@
 package com.example.android.newsapp.util;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.view.View;
 
 import com.example.android.newsapp.App;
 import com.example.android.newsapp.mvp.entity.Constant;
+
+import rx.Subscription;
 
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
@@ -64,5 +67,16 @@ public class MyUtil {
             return stringBuilder.toString();
         }
         return before;
+    }
+
+    public static void cancelSubscription(Subscription subscription){
+        if(subscription != null && !subscription.isUnsubscribed()){
+            subscription.unsubscribe();
+        }
+    }
+
+    public static SharedPreferences getSharePreferences(){
+        return App.getAppContext()
+                .getSharedPreferences(Constant.SHAREPERFERENCE, Context.MODE_PRIVATE);
     }
 }
