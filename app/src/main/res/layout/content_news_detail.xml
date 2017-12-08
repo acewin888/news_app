@@ -37,6 +37,8 @@
             android:textColor="@color/primary_text"
             android:textSize="18sp"
             tools:text="detail news short description"/>
+        
+
 
         <ProgressBar
             android:id="@+id/progress_bar"
