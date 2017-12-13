@@ -13,6 +13,7 @@ import com.example.android.newsapp.R;
 import com.example.android.newsapp.listener.OnItemClickListener;
 import com.example.android.newsapp.mvp.entity.News;
 import com.example.android.newsapp.util.MyUtil;
+import com.example.android.newsapp.widget.CircleImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -53,9 +54,9 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsLi
 
     private void setupImage(Context context, List<News.Articles> articles, int position, NewsListHolder holder){
         if(articles.get(position).getUrlToImage() != null){
-            Picasso.with(context).load(articles.get(position).getUrlToImage()).resize(100,100).into(holder.iconView);
+            Picasso.with(context).load(articles.get(position).getUrlToImage()).resize(100,100).into(holder.circleImageView);
         }else {
-            Picasso.with(context).load(R.drawable.notavailalbe).resize(100,100).into(holder.iconView);
+            Picasso.with(context).load(R.drawable.notavailalbe).resize(100,100).into(holder.circleImageView);
         }
     }
 
@@ -95,7 +96,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsLi
 
         holder.published_time_view.setText(articlesList.get(position).getPublishedAt());
 
-        setupImage(holder.iconView.getContext(), articlesList, position, holder);
+        setupImage(holder.circleImageView.getContext(), articlesList, position, holder);
 
     }
 
@@ -107,7 +108,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsLi
     class NewsListHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.news_icon)
-        ImageView iconView;
+        CircleImageView circleImageView;
 
         @BindView(R.id.news_title)
         TextView titleView;
