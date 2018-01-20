@@ -35,18 +35,18 @@ public class NewsPresenterImpl extends BasePresenterImpl<NewsView, News> {
 
     @Override
     public void onCreate() {
-        super.onCreate();
-
-        if (channel != null && channel.size() > 0) {
-            for (int x = 0; x < channel.size(); x++) {
-                newsInteractor.loadNews(this, channel.get(x), Constant.API_KEY);
-            }
-        } else {
-            newsInteractor.loadNews(this, Constant.ABC_NEWS, Constant.API_KEY);
-            newsInteractor.loadNews(this, Constant.BBC_NEWS, Constant.API_KEY);
-        }
-
-    }
+//        super.onCreate();
+//
+//        if (channel != null && channel.size() > 0) {
+//            for (int x = 0; x < channel.size(); x++) {
+//                newsInteractor.loadNews(this, channel.get(x), Constant.API_KEY);
+//            }
+//        } else {
+//            newsInteractor.loadNews(this, Constant.ABC_NEWS, Constant.API_KEY);
+//            newsInteractor.loadNews(this, Constant.BBC_NEWS, Constant.API_KEY);
+//        }
+//
+//    }
 
 
     @Override
