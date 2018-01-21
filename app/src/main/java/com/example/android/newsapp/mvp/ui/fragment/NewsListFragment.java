@@ -132,9 +132,9 @@ public class NewsListFragment extends BaseFragment implements SwipeRefreshLayout
 
     @Override
     public void onItemSelect(View view, int position) {
-        Intent intent = new Intent(this.getActivity(), NewsDetailActivity.class);
-        intent.putExtra("detail",list.get(position) );
-        startActivity(intent);
+//        Intent intent = new Intent(this.getActivity(), NewsDetailActivity.class);
+//        intent.putExtra("detail",list.get(position) );
+//        startActivity(intent);
     }
     private void scrollToTopEvent(){
         mSubscription = RxBus.getInstance().toObservable(ScrolltoTopEvent.class)
