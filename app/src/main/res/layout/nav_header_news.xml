@@ -18,5 +18,9 @@
         android:layout_height="wrap_content"
         android:text="news selection"
         android:textColor="@color/primary_text"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="enter_ text"/>
 
 </LinearLayout>
